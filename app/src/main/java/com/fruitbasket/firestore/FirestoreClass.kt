@@ -203,7 +203,6 @@ class FirestoreClass {
 
                 Log.e(activity.javaClass.simpleName, document.documents.toString())
 
-                // If the document size is greater than 1 it means the product is already added to the cart.
                 if (document.documents.size > 0) {
                     activity.productExistsInCart()
                 } else {
@@ -211,7 +210,6 @@ class FirestoreClass {
                 }
             }
             .addOnFailureListener { e ->
-                // Hide the progress dialog if there is an error.
                 activity.hideProgressDialog()
 
                 Log.e(
