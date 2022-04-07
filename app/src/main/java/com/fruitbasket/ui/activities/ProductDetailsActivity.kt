@@ -3,6 +3,7 @@ package com.fruitbasket.ui.activities
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.fruitbasket.R
@@ -12,6 +13,7 @@ import com.fruitbasket.utils.Constants
 import com.fruitbasket.utils.GlideLoader
 import kotlinx.android.synthetic.main.activity_product_details.*
 
+@Suppress("DEPRECATION")
 class ProductDetailsActivity : BaseActivity(), View.OnClickListener {
 
     private lateinit var mProductDetails: Product
@@ -21,6 +23,12 @@ class ProductDetailsActivity : BaseActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_product_details)
+
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_FULLSCREEN,
+            WindowManager.LayoutParams.FLAG_FULLSCREEN
+        )
+
 
         if (intent.hasExtra(Constants.EXTRA_PRODUCT_ID)) {
             mProductId =
