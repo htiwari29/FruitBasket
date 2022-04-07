@@ -6,11 +6,10 @@ import android.content.SharedPreferences
 import android.net.Uri
 import android.util.Log
 import androidx.fragment.app.Fragment
+import com.fruitbasket.models.Product
 import com.fruitbasket.models.User
-import com.fruitbasket.ui.activities.LoginActivity
-import com.fruitbasket.ui.activities.RegisterActivity
-import com.fruitbasket.ui.activities.SettingsActivity
-import com.fruitbasket.ui.activities.UserProfileActivity
+import com.fruitbasket.ui.activities.*
+import com.fruitbasket.ui.fragments.ProductsFragment
 import com.fruitbasket.utils.Constants
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -172,36 +171,79 @@ class FirestoreClass {
             }
     }
 
-//    fun getProductList(fragment: Fragment){
-//        mFireStore.collection(Constants.PRODUCTS)
-//            .whereEqualTo(Constants.USER_ID, getCurrentUserID())
-//            .get()
-//            .addOnSuccessListener { document->
-//                Log.e("Products List", document.documents.toString())
-//                val productsList: ArrayList<Product> = ArrayList()
-//
-//                for (i in document.documents) {
-//
-//                    val product = i.toObject(Product::class.java)
-//                    product!!.product_id = i.id
-//
-//                    productsList.add(product)
-//                }
-//                when (fragment) {
-//                    is ProductsFragment -> {
-//                        fragment.successProductsListFromFireStore(productsList)
-//                    }
-//                }
-//            }
-//            .addOnFailureListener { e ->
-//                when (fragment) {
-//                    is ProductsFragment -> {
-//                        fragment.hideProgressDialog()
-//                    }
-//                }
-//                Log.e("Get Product List", "Error while getting product list.", e)
-//            }
-//
-//    }
+
+    fun getProductDetails(activity: ProductDetailsActivity, productId: String) {
+
+        mFireStore.collection(Constants.PRODUCTS)
+            .document(productId)
+            .get()
+            .addOnSuccessListener { document ->
+
+                Log.e(activity.javaClass.simpleName, document.toString())
+
+                val product = document.toObject(Product::class.java)!!
+
+                activity.productDetailsSuccess(product)
+            }
+            .addOnFailureListener { e ->
+
+                activity.hideProgressDialog()
+
+                Log.e(activity.javaClass.simpleName, "Error while getting the product details.", e)
+            }
+    }
+
+    fun checkIfItemExistInCart(activity: ProductDetailsActivity, productId: String) {
+
+        mFireStore.collection(Constants.CART_ITEMS)
+            .whereEqualTo(Constants.USER_ID, getCurrentUserID())
+            .whereEqualTo(Constants.PRODUCT_ID, productId)
+            .get()
+            .addOnSuccessListener { document ->
+
+                Log.e(activity.javaClass.simpleName, document.documents.toString())
+
+                // If the document size is greater than 1 it means the product is already added to the cart.
+                if (document.documents.size > 0) {
+                    activity.productExistsInCart()
+                } else {
+                    activity.hideProgressDialog()
+                }
+            }
+            .addOnFailureListener { e ->
+                // Hide the progress dialog if there is an error.
+                activity.hideProgressDialog()
+
+                Log.e(
+                    activity.javaClass.simpleName,
+                    "Error while checking the existing cart list.",
+                    e
+                )
+            }
+    }
+
+    fun getDashboardItemsList(fragment: ProductsFragment) {
+        mFireStore.collection(Constants.PRODUCTS)
+            .get()
+            .addOnSuccessListener { document ->
+
+                Log.e(fragment.javaClass.simpleName, document.documents.toString())
+
+                val productsList: ArrayList<Product> = ArrayList()
+                for (i in document.documents) {
+
+                    val product = i.toObject(Product::class.java)!!
+                    product.product_id = i.id
+                    productsList.add(product)
+                }
+
+                fragment.successDashboardItemsList(productsList)
+            }
+            .addOnFailureListener { e ->
+                fragment.hideProgressDialog()
+                Log.e(fragment.javaClass.simpleName, "Error while getting dashboard items list.", e)
+            }
+    }
+
 
 }
