@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "338341823298",
+    "project_id": "fruit-basket-b912e",
+    "storage_bucket": "fruit-basket-b912e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:338341823298:android:048f223fdf71db87933edb",
+        "android_client_info": {
+          "package_name": "com.fruitbasket"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "338341823298-u716jm5rpvht45t5ljvikk9i0cltnaup.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fruitbasket",
+            "certificate_hash": "3258e6b2234e3affd112966226cdcd97190d3503"
+          }
+        },
+        {
+          "client_id": "338341823298-qjsh4gk0phtvv7307cukb7kacignep75.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyATZnn9gGqEXM0-ZfO9fazZajhOjGzvWb0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "338341823298-qjsh4gk0phtvv7307cukb7kacignep75.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
